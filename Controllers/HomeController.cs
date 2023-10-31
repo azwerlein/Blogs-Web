@@ -7,9 +7,10 @@ public class HomeController : Controller
     public HomeController(DataContext db) => _dataContext = db;
 
     public IActionResult Index() => View(_dataContext.Blogs.OrderBy(b => b.Name));
-    [Authorize]
+    [Authorize(Roles = "blogs-moderate")]
     public IActionResult AddBlog() => View();
 
+    [Authorize(Roles = "blogs-moderate")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult AddBlog(Blog model)
@@ -29,6 +30,7 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize(Roles = "blogs-moderate")]
     public IActionResult DeleteBlog(int id)
     {
         _dataContext.DeleteBlog(_dataContext.Blogs.FirstOrDefault(b => b.BlogId == id));
