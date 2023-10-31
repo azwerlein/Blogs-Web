@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 public class HomeController : Controller
@@ -6,6 +7,7 @@ public class HomeController : Controller
     public HomeController(DataContext db) => _dataContext = db;
 
     public IActionResult Index() => View(_dataContext.Blogs.OrderBy(b => b.Name));
+    [Authorize]
     public IActionResult AddBlog() => View();
 
     [HttpPost]
